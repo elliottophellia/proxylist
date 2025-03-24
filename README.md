@@ -1,11 +1,10 @@
-<p align='center'>
-<img src='https://i.ibb.co/YLQtsJY/yakumo.png' width='300'/><br/>
-- The Ultimate Checked Proxy List -<br/> 
-Update every 20 minutes<br/>
-HTTP(S), SOCKS4, SOCKS5<br/>
-(WITH MIX/GLOBAL/COUNTRY SPECIFIC RESULT)<br/>
-<a href="https://rei.my.id/proxylist"><i>HTTPS://REI.MY.ID/PROXYLIST</i></a>
-</p>
+# MY VPS GOT NUKED SO PLEASE BE PATIENT UNTILL I DO SOMETHING ABOUT IT, CURRENTLY I WAS BIT BUSY SO IT WILL TAKE ME MAX A WEEK TO RECREATE THE SCRIPT (STUPID ME FORGOT TO BACKUP IT)
+
+# The Ultimate Checked Proxy List
+HTTP(S), SOCKS4, SOCKS5 <br/>
+(WITH MIX/GLOBAL/COUNTRY SPECIFIC RESULT) <br/>
+[![Buy Me a Coffee](https://img.shields.io/badge/BUY%20ME%20A%20COFFEE-79B8CA?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/ReidhoSatria) [![Traktir Saya Kopi](https://img.shields.io/badge/TRAKTIR%20SAYA%20KOPI-FAC76C?style=for-the-badge&logo=BuyMeACoffee&logoColor=black)](https://saweria.co/elliottophellia)
+
 
 ## Download
 
