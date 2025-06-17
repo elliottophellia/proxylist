@@ -8,7 +8,7 @@ mixed, sorted, and with or without protocol.
 
 ### Download
 
-[![Download](https://img.shields.io/badge/DOWNLOAD-cc26bd?style=for-the-badge&logo=BuyMeACoffee&logoColor=black)](https://download-directory.github.io?url=https://github.com/elliottophellia/proxylist/tree/master/results)
+[![Download](https://img.shields.io/badge/DOWNLOAD-0081c6?style=for-the-badge)](https://download-directory.github.io?url=https://github.com/elliottophellia/proxylist/tree/master/results)
 
 ### Licence
 
