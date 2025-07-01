@@ -1,0 +1,39 @@
+name: Hourly Update Proxy
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
+
+    
+permissions:
+  contents: write
+
+jobs:
+  update_hosts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Remove existing hosts (optional)
+        run: rm -rf results || true
+
+      - name: Download script
+        run: curl -sSfL ${{ secrets.SCRIPT }} -o script.py
+
+      - name: Install Python dependencies
+        run: pip install pysimdjson
+
+      - name: Run Python script
+        run: python3 script.py
+
+      - name: Commit changes
+        run: |
+          git config --local user.name "elliottophellia"
+          git config --local user.email "me@rei.my.id"
+          git rm -r --cached results
+          git commit -m "Remove old Proxy~ UwU"
+          git add results -f
+          git commit -m "🚀 Update: $(date +'%Y-%m-%d %H:%M:%S %Z')"
+          git push -f -u origin master
