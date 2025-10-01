@@ -1,0 +1,58 @@
+name: Monthly Branch Refresh
+
+on:
+  schedule:
+    # Run on the 1st day of every month at 2:00 AM UTC
+    - cron: '0 2 1 * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  refresh-master-branch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Reset Repository
+        run: |
+          ##################################
+          ##                              ##
+          ##   RESET REPO EVERY MONTH     ##
+          ##                              ##
+          ##################################
+          
+          echo ">> Reset Repository..."
+          
+          reset_git_repo() {
+              month=$(date +%m)
+              year=$(date +%Y)
+              git checkout --orphan temp_branch_${month}_${year}
+              git add -A
+              git commit -m "🚀 Reboot: $(date +'%Y-%m-%d %H:%M:%S %Z')"
+              git branch -D master
+              git branch -m master
+              git push -f origin master
+          }
+          
+          reset_git_repo
+          
+          echo ">> Reset complete."
+
+      - name: Summary
+        run: |
+          echo "✅ Monthly branch refresh completed successfully!"
+          echo "📅 Date: $(date)"
+          echo "🔄 Repository reset using orphan branch approach"
+          echo "💾 Workflow files preserved and restored"
