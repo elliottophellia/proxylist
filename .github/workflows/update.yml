@@ -1,0 +1,84 @@
+name: Hourly Update Proxy
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
+
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  update_hosts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Remove existing hosts (optional)
+        run: rm -rf results || true
+
+      - name: Download script
+        run: curl -sSfL ${{ secrets.SCRIPT }} -o script.py
+
+      - name: Install Python dependencies
+        run: pip install pysimdjson
+
+      - name: Run Python script
+        run: python3 script.py
+
+      - name: Reboot Repository with New Update
+        run: |
+          ##################################
+          ##                              ##
+          ##   REBOOT WITH NEW UPDATE     ##
+          ##                              ##
+          ##################################
+
+          echo ">> Rebooting repository with fresh proxy update..."
+
+          # Remove the secret script before committing
+          rm -f script.py
+
+          # Create orphan branch with timestamp
+          timestamp=$(date +%s)
+          git checkout --orphan temp_branch_${timestamp}
+
+          # Add all files (script.py is already removed)
+          git add -A
+
+          # Commit with update timestamp
+          git commit -m "🚀 Update: $(date +'%Y-%m-%d %H:%M:%S %Z')"
+
+          # Replace master branch
+          git branch -D master
+          git branch -m master
+
+          # Force push to origin
+          git push -f origin master
+
+          echo ">> Reboot complete with new proxy data."
+
+      - name: Clean Old Workflow Logs
+        uses: igorjs/gh-actions-clean-workflow@v7
+        with:
+          token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+          runs_older_than: "1"
+          runs_to_keep: "1"
+
+      - name: Summary
+        run: |
+          echo "✅ Proxy update and repository reboot completed successfully!"
+          echo "📅 Date: $(date)"
+          echo "🔄 Repository reset with fresh proxy data only"
+          echo "🧹 Old workflow logs cleaned"
